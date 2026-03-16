@@ -500,7 +500,6 @@
                 <!-- 수정된 CTA 영역 -->
                 <div class="flex flex-col justify-center items-center gap-3 border-t md:border-t-0 md:border-l border-gray-200 pt-6 md:pt-0 md:pl-8 w-full md:w-72 flex-shrink-0">
                     <div class="w-full text-center">
-                        <p class="text-sm font-bold text-gray-800 mb-2">1분 만에 신청 완료!</p>
                         <p class="text-xs md:text-sm text-gray-600 bg-gray-100 rounded-lg py-3 px-4 inline-block w-full border border-gray-200">
                             <i class="fa-solid fa-circle-exclamation text-naver mr-1"></i>
                             원활한 신청을 위해<br>
@@ -508,10 +507,18 @@
                         </p>
                     </div>
                     
-                    <a href="https://naver.me/G7N6TbpD" target="_blank" class="w-full text-center bg-naver text-white font-bold py-4 px-6 rounded-lg hover:bg-naver-dark hover:shadow-lg transition-all transform hover:-translate-y-1 relative overflow-hidden group mt-2">
-                        <span class="relative z-10"><i class="fa-solid fa-pen-to-square mr-2"></i>온라인 간편 신청</span>
-                        <div class="absolute inset-0 bg-white transform scale-x-0 origin-left transition-transform duration-300 ease-out group-hover:scale-x-100 opacity-20"></div>
-                    </a>
+                    <div class="w-full flex flex-col gap-2 mt-1">
+                        <!-- Main CTA -->
+                        <a href="https://naver.me/G7N6TbpD" target="_blank" class="w-full text-center bg-naver text-white font-bold py-3 md:py-4 px-4 rounded-lg hover:bg-naver-dark hover:shadow-lg transition-all transform hover:-translate-y-1 relative overflow-hidden group">
+                            <span class="relative z-10"><i class="fa-solid fa-pen-to-square mr-2"></i>온라인 간편 신청</span>
+                            <div class="absolute inset-0 bg-white transform scale-x-0 origin-left transition-transform duration-300 ease-out group-hover:scale-x-100 opacity-20"></div>
+                        </a>
+                        
+                        <!-- Secondary CTA -->
+                        <a href="https://m.site.naver.com/22O7E" target="_blank" class="w-full text-center bg-white text-deep-navy border border-deep-navy font-bold py-3 px-4 rounded-lg hover:bg-gray-50 hover:shadow-md transition-all transform hover:-translate-y-1 mt-1">
+                            <i class="fa-solid fa-calendar-days mr-2"></i>초청연사 및 일정표 확인하기
+                        </a>
+                    </div>
                 </div>
             </div>
             
@@ -572,3 +579,4 @@
     </script>
 </body>
 </html>
+```
