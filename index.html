@@ -1,441 +1,504 @@
 <!DOCTYPE html>
-<html lang="ko" class="scroll-smooth">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>제19기 CEO명품아카데미 | 중소벤처기업연수원</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome -->
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Noto+Serif+KR:wght@400;600;900&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts (Noto Sans KR) -->
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Noto Sans KR"', 'sans-serif'],
+                        serif: ['"Noto Serif KR"', 'serif'],
+                    },
+                    colors: {
+                        'deep-navy': '#0f172a',
+                        'gold': '#d4af37',
+                        'gold-light': '#f3e5ab',
+                        'cobalt': '#1e3a8a',
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        body {
-            font-family: 'Noto Sans KR', sans-serif;
-            word-break: keep-all;
+        /* Custom Animations & Transitions */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
         }
-        /* 배경 그라데이션 및 애니메이션 효과 */
-        .hero-bg {
-            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #020617 100%);
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .delay-100 { transition-delay: 100ms; }
+        .delay-200 { transition-delay: 200ms; }
+        .delay-300 { transition-delay: 300ms; }
+        
+        .bg-cinematic {
+            background: linear-gradient(rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.95)), url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop') no-repeat center center;
+            background-size: cover;
+            background-attachment: fixed;
+        }
+        
+        .bg-grunge {
+            background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.9)), url('https://images.unsplash.com/photo-1518133910546-b6c2fb7d79e3?q=80&w=1974&auto=format&fit=crop') no-repeat center center;
+            background-size: cover;
+        }
+
+        .ticket-border {
+            border: 2px dashed #d4af37;
             position: relative;
-            overflow: hidden;
         }
-        .hero-bg::before {
+        .ticket-border::before, .ticket-border::after {
             content: '';
             position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: url('https://www.transparenttextures.com/patterns/cubes.png');
-            opacity: 0.1;
-            z-index: 1;
+            top: 50%;
+            width: 30px;
+            height: 30px;
+            background-color: #0f172a;
+            border-radius: 50%;
+            transform: translateY(-50%);
         }
-        .hero-content {
-            position: relative;
-            z-index: 2;
-        }
-        .glass-card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        .text-gradient {
-            background: linear-gradient(to right, #60a5fa, #a78bfa);
+        .ticket-border::before { left: -15px; border-right: 2px dashed #d4af37; }
+        .ticket-border::after { right: -15px; border-left: 2px dashed #d4af37; }
+        
+        .gradient-text {
+            background: linear-gradient(to right, #d4af37, #f3e5ab, #d4af37);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800 antialiased">
+<body class="font-sans text-gray-800 antialiased overflow-x-hidden selection:bg-gold selection:text-deep-navy">
 
-    <!-- Header / Navigation -->
-    <nav class="fixed w-full z-50 bg-white/90 backdrop-blur-md border-b border-gray-200 shadow-sm transition-all duration-300">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <div class="flex-shrink-0 flex items-center gap-2">
-                    <i class="fa-solid fa-building-columns text-blue-700 text-xl"></i>
-                    <span class="font-bold text-xl tracking-tight text-gray-900">KOSME 중소벤처기업연수원</span>
-                </div>
-                <div class="hidden md:flex space-x-8">
-                    <a href="#overview" class="text-gray-600 hover:text-blue-600 font-medium transition">과정 개요</a>
-                    <a href="#curriculum" class="text-gray-600 hover:text-blue-600 font-medium transition">커리큘럼 및 강사진</a>
-                    <a href="#benefits" class="text-gray-600 hover:text-blue-600 font-medium transition">수료자 혜택</a>
-                </div>
-                <div class="flex items-center">
-                    <a href="https://naver.me/G7N6TbpD" target="_blank" class="hidden md:inline-flex bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-full font-bold transition shadow-lg shadow-blue-500/30">
-                        수강신청 하기
-                    </a>
-                </div>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Hero Section -->
-    <section class="hero-bg min-h-screen flex items-center pt-16">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 hero-content text-center md:text-left flex flex-col md:flex-row items-center">
-            <div class="md:w-1/2 pt-12 md:pt-0">
-                <span class="inline-block py-1 px-3 rounded-full bg-blue-900/50 border border-blue-400/30 text-blue-300 text-sm font-semibold tracking-wider mb-6">
-                    제19기 KOSME CEO명품아카데미
-                </span>
-                <h1 class="text-4xl md:text-6xl font-extrabold text-white leading-tight mb-4">
-                    <span class="text-gradient">AX와 인문학</span>의 통섭
-                </h1>
-                <p class="text-xl md:text-2xl text-gray-300 font-light mb-8 leading-relaxed">
-                    "알고리즘의 시대, <br class="hidden md:block">사람의 마음에서 길을 찾다"
-                </p>
-                <p class="text-base text-gray-400 mb-10 max-w-lg mx-auto md:mx-0">
-                    AI 대전환 시대, 기술 변화에 대한 깊은 이해와 인문학적 통찰로 미래를 선도할 중소벤처기업 리더를 모십니다. 글로벌 불확실성의 파고를 넘고 혁신의 기회를 포착하십시오.
-                </p>
-                <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-                    <a href="https://naver.me/G7N6TbpD" target="_blank" class="bg-blue-600 hover:bg-blue-500 text-white text-lg font-bold py-4 px-8 rounded-full shadow-[0_0_20px_rgba(37,99,235,0.4)] transition-all transform hover:-translate-y-1 text-center flex items-center justify-center gap-2">
-                        <span>지금 바로 신청하기</span>
-                        <i class="fa-solid fa-arrow-right"></i>
-                    </a>
-                    <a href="#overview" class="bg-transparent border border-gray-500 text-gray-300 hover:text-white hover:border-white text-lg font-medium py-4 px-8 rounded-full transition-all text-center">
-                        상세내용 보기
-                    </a>
-                </div>
-            </div>
-            <div class="md:w-1/2 mt-16 md:mt-0 relative">
-                <!-- Abstract visual representation of AI and Humanities -->
-                <div class="relative w-full max-w-md mx-auto aspect-square">
-                    <div class="absolute inset-0 bg-gradient-to-tr from-blue-600 to-purple-600 rounded-full blur-3xl opacity-20 animate-pulse"></div>
-                    <div class="glass-card absolute inset-4 rounded-3xl p-6 flex flex-col justify-between transform rotate-3 hover:rotate-0 transition duration-500 shadow-2xl">
-                        <div class="flex justify-between items-start text-blue-200 opacity-80">
-                            <i class="fa-solid fa-microchip text-4xl"></i>
-                            <i class="fa-solid fa-book-open text-4xl"></i>
-                        </div>
-                        <div class="text-center">
-                            <h3 class="text-2xl font-bold text-white mb-2">미래를 꿰뚫는 혜안</h3>
-                            <p class="text-blue-200 text-sm">Artificial Intelligence × Humanities</p>
-                        </div>
-                        <div class="flex justify-between items-end text-purple-200 opacity-80">
-                            <i class="fa-solid fa-network-wired text-4xl"></i>
-                            <i class="fa-solid fa-brain text-4xl"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Overview Section -->
-    <section id="overview" class="py-20 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl font-bold text-gray-900 mb-4">과정 개요</h2>
-                <div class="w-16 h-1 bg-blue-600 mx-auto rounded"></div>
-            </div>
+    <!-- Section 1. Hero Area -->
+    <section class="relative min-h-screen flex items-center justify-center bg-cinematic text-white px-6 py-20">
+        <div class="absolute inset-0 bg-deep-navy/40"></div>
+        <div class="relative z-10 max-w-5xl mx-auto text-center reveal active">
+            <p class="text-sm md:text-lg text-gray-300 tracking-widest mb-4 font-light">AI가 당신 회사의 실무를 대체하는 2026년,</p>
+            <h1 class="text-4xl md:text-6xl lg:text-7xl font-serif font-bold leading-tight mb-8">
+                CEO의 <span class="gradient-text">'직관'</span>과 <span class="gradient-text">'결단'</span>은<br>
+                무엇으로 증명하시겠습니까?
+            </h1>
+            <p class="text-lg md:text-2xl text-gray-300 mb-2 font-light">기술을 모르면 도태되지만, 사람을 모르면 무너집니다.</p>
+            <p class="text-base md:text-xl text-gray-400 mb-12 max-w-3xl mx-auto">
+                AI 대전환 시대, 기술에 대한 깊은 이해와 인문학적 통찰로<br class="hidden md:block">
+                미래를 선도할 대한민국 상위 1% 리더를 모십니다.
+            </p>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Card 1 -->
-                <div class="bg-gray-50 rounded-2xl p-8 border border-gray-100 hover:shadow-xl transition-shadow">
-                    <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-xl mb-6">
-                        <i class="fa-solid fa-user-tie"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-2">연수 대상</h3>
-                    <p class="text-gray-600">중소벤처기업 CEO 및 임원,<br>연수 관심 전문직 종사자</p>
-                    <p class="text-sm text-gray-500 mt-2">(50명 내외 모집)</p>
-                </div>
-                <!-- Card 2 -->
-                <div class="bg-gray-50 rounded-2xl p-8 border border-gray-100 hover:shadow-xl transition-shadow">
-                    <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-xl mb-6">
-                        <i class="fa-regular fa-calendar-check"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-2">교육 기간</h3>
-                    <p class="text-gray-600 font-medium text-blue-700">'26.4.30(목) ~ 6.18(목)</p>
-                    <p class="text-gray-600 mt-1">매주 목요일 17:00 ~ 20:00 (총 8강)</p>
-                    <p class="text-xs text-gray-500 mt-2">* 저녁식사(17시~18시) 제공<br>* 3주차는 1박 2일 워크숍 진행</p>
-                </div>
-                <!-- Card 3 -->
-                <div class="bg-gray-50 rounded-2xl p-8 border border-gray-100 hover:shadow-xl transition-shadow">
-                    <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-xl mb-6">
-                        <i class="fa-solid fa-map-location-dot"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-2">교육 장소</h3>
-                    <p class="text-gray-600">삼정호텔 1층 로즈마리홀</p>
-                    <p class="text-sm text-gray-500 mt-1">(서울 강남구 봉은사로 150)</p>
-                </div>
-                <!-- Card 4 -->
-                <div class="bg-gray-50 rounded-2xl p-8 border border-gray-100 hover:shadow-xl transition-shadow">
-                    <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-xl mb-6">
-                        <i class="fa-solid fa-clock"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-2">모집 기간</h3>
-                    <p class="text-gray-600 font-bold text-red-500">~ 2026.4.10(금) 마감</p>
-                </div>
-                <!-- Card 5 -->
-                <div class="bg-gray-50 rounded-2xl p-8 border border-gray-100 hover:shadow-xl transition-shadow">
-                    <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-xl mb-6">
-                        <i class="fa-solid fa-won-sign"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-2">참가 비용</h3>
-                    <p class="text-gray-600 font-bold text-xl">1,000,000원 <span class="text-base font-normal">/ 1인</span></p>
-                </div>
-                <!-- Card 6 -->
-                <div class="bg-gray-50 rounded-2xl p-8 border border-gray-100 hover:shadow-xl transition-shadow">
-                    <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-xl mb-6">
-                        <i class="fa-solid fa-graduation-cap"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-2">수료 기준</h3>
-                    <p class="text-gray-600">총 출석 50% 이상</p>
-                    <p class="text-sm text-gray-500 mt-1">(차수별 강의시간 80% 이상 수강)</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Curriculum Section (Dark Theme matching PDF) -->
-    <section id="curriculum" class="py-20 bg-slate-900 text-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl font-bold text-white mb-4">커리큘럼 및 초청연사</h2>
-                <div class="w-16 h-1 bg-blue-500 mx-auto rounded mb-6"></div>
-                <p class="text-gray-400">대한민국 최고 전문가들과 함께하는 8주간의 통찰력 여정</p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <!-- Session 1 -->
-                <div class="glass-card rounded-xl overflow-hidden hover:transform hover:-translate-y-2 transition-all duration-300">
-                    <div class="bg-blue-600/20 px-4 py-2 border-b border-white/10 flex justify-between items-center">
-                        <span class="font-bold text-blue-400">1강 (4.30)</span>
-                        <span class="text-xs bg-blue-500/30 text-blue-200 px-2 py-1 rounded">AI / 리더십</span>
-                    </div>
-                    <div class="p-6">
-                        <div class="w-16 h-16 rounded-full bg-slate-700 mx-auto mb-4 border-2 border-blue-400 flex items-center justify-center text-2xl overflow-hidden">
-                           <i class="fa-solid fa-user-astronaut text-blue-300"></i>
-                        </div>
-                        <h4 class="text-center font-bold text-lg mb-1">김지현 부사장</h4>
-                        <p class="text-center text-xs text-gray-400 mb-4">SK경영경제연구소</p>
-                        <h5 class="text-blue-300 font-bold mb-3 text-center h-12">리더의 AI,<br>어떻게 다른가?</h5>
-                        <p class="text-sm text-gray-300 leading-relaxed text-center">"AI 도입이 단순 트렌드를 넘어 의사결정과 수익성에 가져올 실질적 변화를 제시합니다."</p>
-                    </div>
-                </div>
-
-                <!-- Session 2 -->
-                <div class="glass-card rounded-xl overflow-hidden hover:transform hover:-translate-y-2 transition-all duration-300">
-                    <div class="bg-blue-600/20 px-4 py-2 border-b border-white/10 flex justify-between items-center">
-                        <span class="font-bold text-blue-400">2강 (5.7)</span>
-                        <span class="text-xs bg-blue-500/30 text-blue-200 px-2 py-1 rounded">AI / 실전</span>
-                    </div>
-                    <div class="p-6">
-                        <div class="w-16 h-16 rounded-full bg-slate-700 mx-auto mb-4 border-2 border-blue-400 flex items-center justify-center text-2xl overflow-hidden">
-                           <i class="fa-solid fa-laptop-code text-blue-300"></i>
-                        </div>
-                        <h4 class="text-center font-bold text-lg mb-1">강동주 대표</h4>
-                        <p class="text-center text-xs text-gray-400 mb-4">(주)하이퍼그로스</p>
-                        <h5 class="text-blue-300 font-bold mb-3 text-center h-12">사례로 배우는<br>중소기업 AX</h5>
-                        <p class="text-sm text-gray-300 leading-relaxed text-center">"자본과 인력이 부족한 중소기업도 가능한 현장 중심의 AI 솔루션과 적용 사례 공개"</p>
-                    </div>
-                </div>
-
-                <!-- Session 3 (Workshop) spans 2 cols on large -->
-                <div class="glass-card rounded-xl overflow-hidden hover:transform hover:-translate-y-2 transition-all duration-300 lg:col-span-2 border border-purple-500/30">
-                    <div class="bg-purple-600/20 px-4 py-2 border-b border-white/10 flex justify-between items-center">
-                        <span class="font-bold text-purple-400">3강 워크숍 (5.15 ~ 5.16)</span>
-                        <span class="text-xs bg-purple-500/30 text-purple-200 px-2 py-1 rounded">1박 2일 특강</span>
-                    </div>
-                    <div class="p-6 grid grid-cols-1 md:grid-cols-3 gap-4 h-full items-center">
-                        <div class="text-center border-b md:border-b-0 md:border-r border-white/10 pb-4 md:pb-0 md:pr-4">
-                            <h4 class="font-bold text-base mb-1">이정민 대표 <span class="text-xs text-gray-400">(前아나운서)</span></h4>
-                            <p class="text-purple-300 text-sm font-bold mb-2">CEO의 이미지 브랜딩</p>
-                            <p class="text-xs text-gray-400">품격을 높이는 리더의 언어 스킬</p>
-                        </div>
-                        <div class="text-center border-b md:border-b-0 md:border-r border-white/10 py-4 md:py-0 px-0 md:px-4">
-                            <h4 class="font-bold text-base mb-1">조승원 기자 <span class="text-xs text-gray-400">(주류전문가)</span></h4>
-                            <p class="text-purple-300 text-sm font-bold mb-2">위스키와 비즈니스 소통</p>
-                            <p class="text-xs text-gray-400">위스키에 얽힌 인문학적 통찰</p>
-                        </div>
-                        <div class="text-center pt-4 md:pt-0 md:pl-4">
-                            <h4 class="font-bold text-base mb-1">김수진 대표 <span class="text-xs text-gray-400">(강점연구가)</span></h4>
-                            <p class="text-purple-300 text-sm font-bold mb-2">팀빌딩 및 네트워킹</p>
-                            <p class="text-xs text-gray-400">원우들과의 짜임새 있는 교류</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Session 4 -->
-                <div class="glass-card rounded-xl overflow-hidden hover:transform hover:-translate-y-2 transition-all duration-300">
-                    <div class="bg-blue-600/20 px-4 py-2 border-b border-white/10 flex justify-between items-center">
-                        <span class="font-bold text-blue-400">4강 (5.21)</span>
-                        <span class="text-xs bg-blue-500/30 text-blue-200 px-2 py-1 rounded">건강 / 자기계발</span>
-                    </div>
-                    <div class="p-6">
-                        <div class="w-16 h-16 rounded-full bg-slate-700 mx-auto mb-4 border-2 border-blue-400 flex items-center justify-center text-2xl overflow-hidden">
-                           <i class="fa-solid fa-heart-pulse text-blue-300"></i>
-                        </div>
-                        <h4 class="text-center font-bold text-lg mb-1">홍정기 원장</h4>
-                        <p class="text-center text-xs text-gray-400 mb-4">차의과대 스포츠의학대학원</p>
-                        <h5 class="text-blue-300 font-bold mb-3 text-center h-12">100세 시대의 보험,<br>생존 근육을 사수하라</h5>
-                        <p class="text-sm text-gray-300 leading-relaxed text-center">"치열한 경영 레이스를 장기 완주하기 위한 생존 근육 단련법 처방"</p>
-                    </div>
-                </div>
-
-                <!-- Session 5 -->
-                <div class="glass-card rounded-xl overflow-hidden hover:transform hover:-translate-y-2 transition-all duration-300">
-                    <div class="bg-blue-600/20 px-4 py-2 border-b border-white/10 flex justify-between items-center">
-                        <span class="font-bold text-blue-400">5강 (5.28)</span>
-                        <span class="text-xs bg-blue-500/30 text-blue-200 px-2 py-1 rounded">사회 / 인구</span>
-                    </div>
-                    <div class="p-6">
-                        <div class="w-16 h-16 rounded-full bg-slate-700 mx-auto mb-4 border-2 border-blue-400 flex items-center justify-center text-2xl overflow-hidden">
-                           <i class="fa-solid fa-users-viewfinder text-blue-300"></i>
-                        </div>
-                        <h4 class="text-center font-bold text-lg mb-1">전영수 교수</h4>
-                        <p class="text-center text-xs text-gray-400 mb-4">한양대 국제대학원</p>
-                        <h5 class="text-blue-300 font-bold mb-3 text-center h-12">인구를 알면<br>미래가 보인다</h5>
-                        <p class="text-sm text-gray-300 leading-relaxed text-center">"인구 감소와 구조 변화 속 우리 기업이 파고들 객관적인 미래 시장 예측"</p>
-                    </div>
-                </div>
-
-                <!-- Session 6 -->
-                <div class="glass-card rounded-xl overflow-hidden hover:transform hover:-translate-y-2 transition-all duration-300">
-                    <div class="bg-blue-600/20 px-4 py-2 border-b border-white/10 flex justify-between items-center">
-                        <span class="font-bold text-blue-400">6강 (6.4)</span>
-                        <span class="text-xs bg-blue-500/30 text-blue-200 px-2 py-1 rounded">역사 / 리더십</span>
-                    </div>
-                    <div class="p-6">
-                        <div class="w-16 h-16 rounded-full bg-slate-700 mx-auto mb-4 border-2 border-blue-400 flex items-center justify-center text-2xl overflow-hidden">
-                           <i class="fa-solid fa-chess-king text-blue-300"></i>
-                        </div>
-                        <h4 class="text-center font-bold text-lg mb-1">신병주 교수</h4>
-                        <p class="text-center text-xs text-gray-400 mb-4">건국대 사학과</p>
-                        <h5 class="text-blue-300 font-bold mb-3 text-center h-12">조선 왕으로 보는<br>위기관리 리더십</h5>
-                        <p class="text-sm text-gray-300 leading-relaxed text-center">"역사 속 리더들은 어떻게 극복했을까? 국난 극복 리더십을 현대 경영에 접목"</p>
-                    </div>
-                </div>
-
-                <!-- Session 7 -->
-                <div class="glass-card rounded-xl overflow-hidden hover:transform hover:-translate-y-2 transition-all duration-300">
-                    <div class="bg-blue-600/20 px-4 py-2 border-b border-white/10 flex justify-between items-center">
-                        <span class="font-bold text-blue-400">7강 (6.11)</span>
-                        <span class="text-xs bg-blue-500/30 text-blue-200 px-2 py-1 rounded">경영 / 심리</span>
-                    </div>
-                    <div class="p-6">
-                        <div class="w-16 h-16 rounded-full bg-slate-700 mx-auto mb-4 border-2 border-blue-400 flex items-center justify-center text-2xl overflow-hidden">
-                           <i class="fa-solid fa-hand-holding-heart text-blue-300"></i>
-                        </div>
-                        <h4 class="text-center font-bold text-lg mb-1">김현정 부회장</h4>
-                        <p class="text-center text-xs text-gray-400 mb-4">중소기업코칭컨설팅협회</p>
-                        <h5 class="text-blue-300 font-bold mb-3 text-center h-12">위기를 기회로 바꾸는<br>CEO 맞춤 심리 전략</h5>
-                        <p class="text-sm text-gray-300 leading-relaxed text-center">"직원들이 두려움 없이 도전하게 만드는 리더의 심리적 안전망 구축 전략"</p>
-                    </div>
-                </div>
-
-                <!-- Session 8 -->
-                <div class="glass-card rounded-xl overflow-hidden hover:transform hover:-translate-y-2 transition-all duration-300">
-                    <div class="bg-blue-600/20 px-4 py-2 border-b border-white/10 flex justify-between items-center">
-                        <span class="font-bold text-blue-400">8강 (6.18)</span>
-                        <span class="text-xs bg-blue-500/30 text-blue-200 px-2 py-1 rounded">경제 / 국제정세</span>
-                    </div>
-                    <div class="p-6">
-                        <div class="w-16 h-16 rounded-full bg-slate-700 mx-auto mb-4 border-2 border-blue-400 flex items-center justify-center text-2xl overflow-hidden">
-                           <i class="fa-solid fa-chart-line text-blue-300"></i>
-                        </div>
-                        <h4 class="text-center font-bold text-lg mb-1">박종훈 소장</h4>
-                        <p class="text-center text-xs text-gray-400 mb-4">지식경제연구소</p>
-                        <h5 class="text-blue-300 font-bold mb-3 text-center h-12">2026 대내외 여건 변화와<br>경제전망</h5>
-                        <p class="text-sm text-gray-300 leading-relaxed text-center">"급변하는 거시경제 환경 속 전략적 포지셔닝. 팩트 기반의 경제 전망 제시"</p>
-                    </div>
-                </div>
-            </div>
-            <p class="text-center text-xs text-gray-500 mt-8">* 강의 주제 및 커리큘럼은 강사 및 내부 사정에 따라 다소 변동될 수 있습니다.</p>
-        </div>
-    </section>
-
-    <!-- Benefits Section -->
-    <section id="benefits" class="py-20 bg-gray-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl font-bold text-gray-900 mb-4">수료생 특별 혜택</h2>
-                <div class="w-16 h-1 bg-blue-600 mx-auto rounded mb-6"></div>
-                <p class="text-gray-600">수료 후에도 이어지는 중소벤처기업연수원의 든든한 파트너십</p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-                <div class="bg-white rounded-2xl p-8 shadow-lg text-center transform transition duration-300 hover:-translate-y-2">
-                    <div class="w-20 h-20 mx-auto bg-gradient-to-br from-blue-100 to-blue-200 rounded-full flex items-center justify-center mb-6 shadow-inner">
-                        <i class="fa-regular fa-building text-3xl text-blue-600"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">연수원 시설 할인</h3>
-                    <p class="text-gray-600 leading-relaxed">수료자 소속 기업의 본원 시설(대관/숙식) 사용료 <strong class="text-blue-600">50% 할인</strong> 적용 (당해 연도)</p>
-                </div>
-
-                <div class="bg-white rounded-2xl p-8 shadow-lg text-center transform transition duration-300 hover:-translate-y-2 relative overflow-hidden">
-                    <div class="absolute top-0 right-0 bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-bl-lg">HOT</div>
-                    <div class="w-20 h-20 mx-auto bg-gradient-to-br from-purple-100 to-purple-200 rounded-full flex items-center justify-center mb-6 shadow-inner">
-                        <i class="fa-solid fa-truck-fast text-3xl text-purple-600"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">현장맞춤연수 지원</h3>
-                    <p class="text-gray-600 leading-relaxed">임직원 대상 찾아가는 AI 등 현장 방문 맞춤형 특강 <strong class="text-purple-600">무료 제공</strong> <span class="text-sm">(선착순 10개사, 100만원 상당)</span></p>
-                </div>
-
-                <div class="bg-white rounded-2xl p-8 shadow-lg text-center transform transition duration-300 hover:-translate-y-2">
-                    <div class="w-20 h-20 mx-auto bg-gradient-to-br from-green-100 to-green-200 rounded-full flex items-center justify-center mb-6 shadow-inner">
-                        <i class="fa-solid fa-users text-3xl text-green-600"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">직무교육비 할인</h3>
-                    <p class="text-gray-600 leading-relaxed">수료자 소속 기업 재직자의 연수원 직무교육 수강 시 연수비 <strong class="text-green-600">50% 할인</strong> <span class="text-sm">(최대 3명)</span></p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- CTA / Contact Section -->
-    <section class="bg-blue-700 py-16 text-white text-center">
-        <div class="max-w-4xl mx-auto px-4">
-            <h2 class="text-3xl md:text-4xl font-bold mb-6">글로벌 불확실성의 파고를 넘고<br>혁신의 기회를 포착하십시오.</h2>
-            <p class="text-blue-200 mb-10 text-lg">제19기 CEO명품아카데미가 중소벤처기업 CEO 여러분을 기다립니다.</p>
-            
-            <div class="bg-white/10 backdrop-blur-sm rounded-xl p-8 mb-10 border border-white/20 inline-block w-full max-w-2xl">
-                <div class="flex flex-col md:flex-row items-center justify-between gap-6">
-                    <div class="text-left">
-                        <p class="text-blue-200 text-sm mb-1">문의처</p>
-                        <h3 class="text-2xl font-bold mb-2">중소벤처기업연수원</h3>
-                        <p class="text-xl"><i class="fa-solid fa-user-circle mr-2"></i>진의태 과장</p>
-                        <p class="text-xl font-mono mt-2"><i class="fa-solid fa-phone mr-2"></i>031-490-1250</p>
-                    </div>
-                    <div>
-                        <div class="bg-white p-2 rounded-lg inline-block shadow-lg">
-                            <!-- Placeholder for QR Code. In real life, use an img tag with the actual QR -->
-                            <div class="w-32 h-32 bg-gray-200 flex items-center justify-center flex-col text-gray-800 rounded">
-                                <i class="fa-solid fa-qrcode text-5xl mb-1"></i>
-                                <span class="text-xs font-bold">네이버 폼 연결</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="inline-block border border-gold/50 rounded-lg p-6 backdrop-blur-sm bg-white/5 mb-12">
+                <p class="text-sm text-gold tracking-widest mb-2 font-bold">KOSME 중소벤처기업연수원</p>
+                <h2 class="text-2xl md:text-3xl font-serif font-bold">제19기 CEO명품아카데미</h2>
+                <p class="text-xl md:text-2xl mt-2 font-serif text-gray-200">[AX와 인문학의 통섭]</p>
             </div>
 
             <div>
-                <a href="https://naver.me/G7N6TbpD" target="_blank" class="inline-block bg-white text-blue-700 hover:bg-gray-100 text-xl font-bold py-5 px-10 rounded-full shadow-2xl transition-all transform hover:scale-105">
-                    <i class="fa-solid fa-pen-to-square mr-2"></i> 모바일 참가 신청서 작성하기
+                <a href="#curriculum" class="inline-flex flex-col items-center text-gray-400 hover:text-gold transition-colors duration-300">
+                    <span class="text-sm tracking-widest mb-2 uppercase border border-gray-500 rounded-full px-6 py-3 hover:border-gold hover:bg-gold/10 transition-all">스크롤을 내려 생존의 무기 확인하기</span>
+                    <i class="fa-solid fa-chevron-down animate-bounce mt-4 text-xl"></i>
                 </a>
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="bg-slate-900 py-8 border-t border-slate-800 text-center text-gray-500 text-sm">
-        <div class="max-w-7xl mx-auto px-4">
-            <p class="mb-2">KOSME 중소벤처기업연수원</p>
-            <p>경기도 안산시 단원구 연수원로 87 (원곡동)</p>
-            <p class="mt-4 text-xs">Copyright © 2026 KOSME. All rights reserved.</p>
+    <!-- Section 2. Pain Point -->
+    <section class="bg-grunge text-white py-24 px-6 relative">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-3xl md:text-5xl font-serif font-bold mb-4">혁신해야 한다는 강박, 그러나...</h2>
+                <p class="text-xl text-gold">지금 당신을 가로막고 있는 3가지 팩트</p>
+            </div>
+
+            <div class="space-y-8">
+                <!-- Fact 1 -->
+                <div class="bg-white/5 border border-white/10 p-8 rounded-xl backdrop-blur-md reveal delay-100">
+                    <div class="flex items-start gap-4">
+                        <div class="w-12 h-12 rounded-full bg-deep-navy flex items-center justify-center flex-shrink-0 border border-gray-600">
+                            <i class="fa-solid fa-robot text-gray-400 text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold mb-2 text-gray-200">[AI의 장벽]</h3>
+                            <p class="text-lg md:text-xl text-gray-400 font-serif italic">"우린 대기업처럼 AI에 투자할 자본도, 전문 인력도 없는데..."</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Fact 2 -->
+                <div class="bg-white/5 border border-white/10 p-8 rounded-xl backdrop-blur-md reveal delay-200">
+                    <div class="flex items-start gap-4">
+                        <div class="w-12 h-12 rounded-full bg-deep-navy flex items-center justify-center flex-shrink-0 border border-gray-600">
+                            <i class="fa-solid fa-chart-line text-gray-400 text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold mb-2 text-gray-200">[시장의 증발]</h3>
+                            <p class="text-lg md:text-xl text-gray-400 font-serif italic">"인구는 줄고 경제는 위기라는데, 내년 우리 회사의 타깃은 대체 어디인가?"</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Fact 3 -->
+                <div class="bg-white/5 border border-white/10 p-8 rounded-xl backdrop-blur-md reveal delay-300">
+                    <div class="flex items-start gap-4">
+                        <div class="w-12 h-12 rounded-full bg-deep-navy flex items-center justify-center flex-shrink-0 border border-gray-600">
+                            <i class="fa-solid fa-user-tie text-gray-400 text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold mb-2 text-gray-200">[리더의 고립]</h3>
+                            <p class="text-lg md:text-xl text-gray-400 font-serif italic">"불확실성 속에서 직원들을 이끌어야 하는 두려움, 누구에게 털어놓을 수 있을까?"</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-16 text-center reveal">
+                <p class="text-lg md:text-xl text-gray-300 mb-2">이것은 핑계가 아닌, 대한민국 중소기업 리더들이 직면한 냉혹한 현실입니다.</p>
+                <p class="text-xl md:text-2xl font-bold text-white">그러나 위기는 늘 가장 먼저 움직이는 자에게 <span class="text-gold">'독점적 기회'</span>를 허락했습니다.</p>
+            </div>
         </div>
-    </footer>
+    </section>
 
-    <!-- Mobile Fixed Bottom CTA -->
-    <div class="fixed bottom-0 left-0 right-0 p-4 bg-white border-t border-gray-200 shadow-[0_-10px_20px_rgba(0,0,0,0.05)] md:hidden z-50 flex justify-between items-center">
-        <div>
-            <p class="text-xs text-gray-500 font-bold">제19기 CEO명품아카데미</p>
-            <p class="text-blue-700 font-bold text-sm">~ 4.10(금) 마감</p>
+    <!-- Section 3. The Solution -->
+    <section class="bg-white text-deep-navy py-24 px-6">
+        <div class="max-w-5xl mx-auto text-center">
+            <div class="mb-12 reveal">
+                <i class="fa-brands fa-hubspot text-5xl text-gold mb-6"></i>
+                <h2 class="text-3xl md:text-5xl font-serif font-bold leading-tight mb-6">
+                    "AI 시대에 살아남으려면,<br>기계가 아닌 인간의 마음을 읽어야 합니다."
+                </h2>
+            </div>
+            
+            <div class="max-w-3xl mx-auto reveal delay-100">
+                <p class="text-lg md:text-xl text-gray-600 mb-6 leading-relaxed">
+                    최첨단 기술의 시대에 왜 우리는 조선의 역사를 배우고, 심리학을 논해야 할까요?<br>
+                    AI는 완벽한 데이터를 제시할 수 있지만, 조직의 결속력을 다지고 위기를 기회로 뒤집는 <strong>'결단'</strong>은 오직 리더의 고유한 영역이기 때문입니다.
+                </p>
+                <div class="bg-gray-50 p-8 rounded-2xl border border-gray-200 shadow-sm mt-10">
+                    <p class="text-xl text-gray-800 leading-relaxed font-serif">
+                        중소벤처기업연수원은 자본과 인력의 한계를 뛰어넘는 <span class="text-gold font-bold text-2xl">'실전 AX 솔루션'</span>에,<br>
+                        수백 년 역사와 인간 심리를 관통하는 <span class="text-gold font-bold text-2xl">'인문학적 갑옷'</span>을 입혔습니다.
+                    </p>
+                    <p class="text-2xl font-bold mt-8 text-deep-navy">알고리즘의 시대, 사람의 마음에서 길을 찾으십시오.</p>
+                </div>
+            </div>
         </div>
-        <a href="https://naver.me/G7N6TbpD" target="_blank" class="bg-blue-600 text-white font-bold py-3 px-6 rounded-lg shadow-lg">
-            수강신청
-        </a>
-    </div>
+    </section>
 
-    <!-- Padding for mobile bottom fixed button -->
-    <div class="h-20 md:hidden"></div>
+    <!-- Section 4. Curriculum -->
+    <section id="curriculum" class="bg-gray-100 py-24 px-6">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-3xl md:text-5xl font-serif font-bold text-deep-navy mb-4">2026년 대격변기를 돌파할<br>CEO 맞춤형 지적 아머(Armor) 제작소</h2>
+                <p class="text-xl text-gray-600">8주간 장착하게 될 당신만의 생존 무기</p>
+            </div>
 
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                
+                <!-- 무기 1 -->
+                <div class="bg-white rounded-2xl shadow-lg p-8 border-t-4 border-deep-navy hover:-translate-y-2 transition-transform duration-300 reveal">
+                    <div class="flex items-center gap-3 mb-6">
+                        <span class="bg-deep-navy text-white text-sm font-bold px-3 py-1 rounded-full">무기 1</span>
+                        <h3 class="text-2xl font-bold text-deep-navy">[비전과 실전의 결합] AI 리더십 & AX 실전</h3>
+                    </div>
+                    <div class="space-y-6">
+                        <div class="group">
+                            <h4 class="font-bold text-lg mb-1 group-hover:text-gold transition-colors">1강. 리더의 AI, 어떻게 다른가?</h4>
+                            <p class="text-sm text-gray-500 mb-2">SK경영경제연구소 김지현 부사장</p>
+                            <p class="text-gray-700 bg-gray-50 p-4 rounded-lg text-sm border-l-2 border-gray-300">"단순한 트렌드를 넘어, 우리 회사의 의사결정과 수익성에 직결되는 리더의 AI를 제시합니다."</p>
+                        </div>
+                        <div class="group">
+                            <h4 class="font-bold text-lg mb-1 group-hover:text-gold transition-colors">2강. 사례로 배우는 중소기업 AX</h4>
+                            <p class="text-sm text-gray-500 mb-2">(주)하이퍼그로스 강동주 대표</p>
+                            <p class="text-gray-700 bg-gray-50 p-4 rounded-lg text-sm border-l-2 border-gray-300">"자본과 인력이 부족합니까? 현장 중심의 솔루션으로 중소기업형 AI 전환의 해답을 드립니다."</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 무기 2 -->
+                <div class="bg-white rounded-2xl shadow-lg p-8 border-t-4 border-deep-navy hover:-translate-y-2 transition-transform duration-300 reveal delay-100">
+                    <div class="flex items-center gap-3 mb-6">
+                        <span class="bg-deep-navy text-white text-sm font-bold px-3 py-1 rounded-full">무기 2</span>
+                        <h3 class="text-2xl font-bold text-deep-navy">[거시적 안목 장착] 팩트 기반의 시장 예측</h3>
+                    </div>
+                    <div class="space-y-6">
+                        <div class="group">
+                            <h4 class="font-bold text-lg mb-1 group-hover:text-gold transition-colors">5강. 인구를 알면 미래가 보인다</h4>
+                            <p class="text-sm text-gray-500 mb-2">한양대 국제대학원 전영수 교수</p>
+                            <p class="text-gray-700 bg-gray-50 p-4 rounded-lg text-sm border-l-2 border-gray-300">"인구 감소의 위기 속에서 우리 기업이 새롭게 파고들 객관적인 미래 시장을 예측합니다."</p>
+                        </div>
+                        <div class="group">
+                            <h4 class="font-bold text-lg mb-1 group-hover:text-gold transition-colors">8강. 2026 대내외 여건 변화와 경제 전망</h4>
+                            <p class="text-sm text-gray-500 mb-2">지식경제연구소 박종훈 소장</p>
+                            <p class="text-gray-700 bg-gray-50 p-4 rounded-lg text-sm border-l-2 border-gray-300">"급변하는 거시경제 환경, 우리 회사가 취해야 할 전략적 포지션을 날카롭게 짚어냅니다."</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 무기 3 -->
+                <div class="bg-white rounded-2xl shadow-lg p-8 border-t-4 border-deep-navy hover:-translate-y-2 transition-transform duration-300 reveal md:col-span-2 lg:col-span-1">
+                    <div class="flex items-center gap-3 mb-6">
+                        <span class="bg-deep-navy text-white text-sm font-bold px-3 py-1 rounded-full">무기 3</span>
+                        <h3 class="text-2xl font-bold text-deep-navy">[내외면 방어력] 위기관리 & 멘탈 케어</h3>
+                    </div>
+                    <div class="space-y-6">
+                        <div class="group">
+                            <h4 class="font-bold text-lg mb-1 group-hover:text-gold transition-colors">6강. 조선 왕으로 보는 위기관리 리더십</h4>
+                            <p class="text-sm text-gray-500 mb-2">건국대 사학과 신병주 교수</p>
+                            <p class="text-gray-700 bg-gray-50 p-4 rounded-lg text-sm border-l-2 border-gray-300">"숱한 국난을 극복한 조선 왕들의 역사적 빅데이터를 현대 경영의 위기관리 맥락에 접목합니다."</p>
+                        </div>
+                        <div class="group">
+                            <h4 class="font-bold text-lg mb-1 group-hover:text-gold transition-colors">7강. 위기를 기회로 바꾸는 CEO 맞춤 심리 전략</h4>
+                            <p class="text-sm text-gray-500 mb-2">중소기업코칭컨설팅협회 김현정 부회장</p>
+                            <p class="text-gray-700 bg-gray-50 p-4 rounded-lg text-sm border-l-2 border-gray-300">"직원들이 두려움 없이 도전하게 만드는 법, 리더만을 위한 심리적 안전망 구축 전략입니다."</p>
+                        </div>
+                        <div class="group">
+                            <h4 class="font-bold text-lg mb-1 group-hover:text-gold transition-colors">4강. 100세 시대의 보험, 생존 근육을 사수하라</h4>
+                            <p class="text-sm text-gray-500 mb-2">차의과대 스포츠의학대학원 홍정기 원장</p>
+                            <p class="text-gray-700 bg-gray-50 p-4 rounded-lg text-sm border-l-2 border-gray-300">"경영 레이스를 장기 완주하기 위한 CEO의 근본적 생존 근육 단련법을 처방합니다."</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Special Armor -->
+                <div class="bg-gradient-to-br from-deep-navy to-gray-900 rounded-2xl shadow-2xl p-1 md:col-span-2 lg:col-span-1 reveal delay-100 transform hover:scale-[1.02] transition-transform duration-300">
+                    <div class="h-full bg-deep-navy rounded-xl p-8 ticket-border text-white flex flex-col justify-center">
+                        <div class="text-center mb-6">
+                            <span class="text-gold tracking-widest text-sm font-bold uppercase border border-gold px-4 py-1 rounded-full inline-block mb-4">Special Armor</span>
+                            <h3 class="text-3xl font-serif font-bold text-white mb-2">[품격 있는 연대] 1박 2일 워크숍</h3>
+                            <p class="text-gray-400">3주차 특강 (5.15 금 ~ 5.16 토)</p>
+                        </div>
+                        
+                        <ul class="space-y-4 mb-8">
+                            <li class="flex items-start gap-3">
+                                <i class="fa-solid fa-crown text-gold mt-1"></i>
+                                <div>
+                                    <strong class="block text-lg">CEO 이미지 브랜딩 (방송인 이정민 대표)</strong>
+                                    <span class="text-sm text-gray-400">조직의 결속을 다지는 리더의 언어 스킬</span>
+                                </div>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i class="fa-solid fa-wine-glass text-gold mt-1"></i>
+                                <div>
+                                    <strong class="block text-lg">위스키 비즈니스 소통법 (조승원 기자)</strong>
+                                    <span class="text-sm text-gray-400">교양 지식으로 비즈니스 네트워킹을 주도하는 법</span>
+                                </div>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i class="fa-solid fa-people-group text-gold mt-1"></i>
+                                <div>
+                                    <strong class="block text-lg">팀빌딩 소통 프로그램 (스담 김수진 대표)</strong>
+                                    <span class="text-sm text-gray-400">상위 1% 리더들과의 대체 불가한 연대 형성</span>
+                                </div>
+                            </li>
+                        </ul>
+                        
+                        <div class="mt-auto bg-white/10 p-4 rounded-lg text-center backdrop-blur-sm">
+                            <p class="text-gold-light font-serif italic">"단순한 교육을 넘어, 지적 수준이 맞는 리더들과의<br>깊이 있는 프라이빗 클럽에 초대합니다."</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 5. Unbeatable ROI -->
+    <section class="bg-cobalt text-white py-24 px-6">
+        <div class="max-w-5xl mx-auto text-center reveal">
+            <h2 class="text-3xl md:text-5xl font-serif font-bold mb-6">결재를 망설일 이유가 없는 압도적 ROI</h2>
+            <p class="text-xl md:text-2xl text-blue-200 mb-16">참가비 100만 원은 '비용'이 아니라,<br class="block md:hidden"> 귀사를 위한 가장 확실한 <strong class="text-white border-b-2 border-gold pb-1">'전략적 투자'</strong>입니다.</p>
+
+            <div class="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-8">
+                <!-- Benefit 1 -->
+                <div class="bg-white/10 p-6 rounded-xl border border-blue-400/30 w-full md:w-1/3 flex flex-col items-center h-full">
+                    <div class="bg-gold text-deep-navy w-16 h-16 rounded-full flex items-center justify-center text-2xl mb-4 shadow-lg">
+                        <i class="fa-solid fa-chalkboard-user"></i>
+                    </div>
+                    <h3 class="font-bold text-lg mb-2 text-center">AI 현장 특강 무료 제공</h3>
+                    <p class="text-sm text-blue-200 text-center">참여기업 임직원 대상 찾아가는 특강<br><span class="text-gold font-bold">(100만원 상당)</span></p>
+                </div>
+
+                <div class="text-3xl text-blue-300 font-bold hidden md:block"><i class="fa-solid fa-plus"></i></div>
+                <div class="text-3xl text-blue-300 font-bold block md:hidden"><i class="fa-solid fa-plus"></i></div>
+
+                <!-- Benefit 2 -->
+                <div class="bg-white/10 p-6 rounded-xl border border-blue-400/30 w-full md:w-1/3 flex flex-col items-center h-full">
+                    <div class="bg-gold text-deep-navy w-16 h-16 rounded-full flex items-center justify-center text-2xl mb-4 shadow-lg">
+                        <i class="fa-solid fa-building"></i>
+                    </div>
+                    <h3 class="font-bold text-lg mb-2 text-center">시설 사용료 50% 할인</h3>
+                    <p class="text-sm text-blue-200 text-center">수료자 소속 기업 본원 시설<br>(당해 연도 적용)</p>
+                </div>
+
+                <div class="text-3xl text-blue-300 font-bold hidden md:block"><i class="fa-solid fa-plus"></i></div>
+                <div class="text-3xl text-blue-300 font-bold block md:hidden"><i class="fa-solid fa-plus"></i></div>
+
+                <!-- Benefit 3 -->
+                <div class="bg-white/10 p-6 rounded-xl border border-blue-400/30 w-full md:w-1/3 flex flex-col items-center h-full">
+                    <div class="bg-gold text-deep-navy w-16 h-16 rounded-full flex items-center justify-center text-2xl mb-4 shadow-lg">
+                        <i class="fa-solid fa-user-graduate"></i>
+                    </div>
+                    <h3 class="font-bold text-lg mb-2 text-center">연수비 50% 할인</h3>
+                    <p class="text-sm text-blue-200 text-center">소속 기업 재직자 직무교육 수강 시<br>(최대 3명 적용)</p>
+                </div>
+            </div>
+
+            <div class="mt-12 bg-white text-deep-navy rounded-xl p-6 shadow-2xl max-w-3xl mx-auto transform hover:scale-105 transition-transform duration-300">
+                <p class="text-2xl md:text-3xl font-black">
+                    = 기업의 실질적 혜택은<br class="block md:hidden"> <span class="text-cobalt">수강료를 아득히 초과</span>합니다.
+                </p>
+                <p class="text-sm text-gray-500 mt-3">※ 연수원 패밀리기업 무료 / 원우회 추천 시 30% 할인</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 6. CTA -->
+    <section class="bg-deep-navy text-white py-24 px-6 relative overflow-hidden">
+        <!-- Background Pattern -->
+        <div class="absolute inset-0 opacity-5" style="background-image: radial-gradient(#d4af37 1px, transparent 1px); background-size: 20px 20px;"></div>
+        
+        <div class="max-w-4xl mx-auto relative z-10">
+            <div class="text-center mb-10 reveal">
+                <p class="text-gold font-bold tracking-widest mb-2 animate-pulse">단 50명 내외 선착순 마감</p>
+                <h2 class="text-3xl md:text-4xl font-serif font-bold mb-4">시대를 앞서가는 리더들은<br>이미 혁신 네트워크를 구축하고 있습니다.</h2>
+                <p class="text-xl text-gray-400">자리가 마감되기 전, 귀하의 자리를 선점하십시오.</p>
+            </div>
+
+            <!-- Countdown -->
+            <div class="flex justify-center gap-4 mb-12 reveal delay-100">
+                <div class="text-center">
+                    <div class="bg-gray-800 rounded-lg p-4 w-20 md:w-24 border border-gray-700 shadow-inner">
+                        <span id="days" class="text-3xl md:text-4xl font-bold text-white">00</span>
+                    </div>
+                    <span class="text-sm text-gray-400 mt-2 block">일</span>
+                </div>
+                <div class="text-center">
+                    <div class="bg-gray-800 rounded-lg p-4 w-20 md:w-24 border border-gray-700 shadow-inner">
+                        <span id="hours" class="text-3xl md:text-4xl font-bold text-white">00</span>
+                    </div>
+                    <span class="text-sm text-gray-400 mt-2 block">시간</span>
+                </div>
+                <div class="text-center">
+                    <div class="bg-gray-800 rounded-lg p-4 w-20 md:w-24 border border-gray-700 shadow-inner">
+                        <span id="minutes" class="text-3xl md:text-4xl font-bold text-white">00</span>
+                    </div>
+                    <span class="text-sm text-gray-400 mt-2 block">분</span>
+                </div>
+                <div class="text-center">
+                    <div class="bg-gray-800 rounded-lg p-4 w-20 md:w-24 border border-gray-700 shadow-inner">
+                        <span id="seconds" class="text-3xl md:text-4xl font-bold text-gold">00</span>
+                    </div>
+                    <span class="text-sm text-gray-400 mt-2 block">초</span>
+                </div>
+            </div>
+
+            <!-- Information Ticket -->
+            <div class="bg-white text-deep-navy rounded-2xl p-8 md:p-10 shadow-2xl flex flex-col md:flex-row gap-8 items-center justify-between reveal delay-200 ticket-border border-gray-200">
+                <div class="flex-1 space-y-4 w-full">
+                    <div class="border-b border-gray-200 pb-4">
+                        <span class="text-gray-500 text-sm font-bold block mb-1">교육 기간</span>
+                        <strong class="text-lg">2026. 4. 30(목) ~ 6. 18(목)</strong> <span class="text-gray-600">매주 목 17:00~20:00 (석식 제공)</span>
+                    </div>
+                    <div class="border-b border-gray-200 pb-4">
+                        <span class="text-gray-500 text-sm font-bold block mb-1">교육 장소</span>
+                        <strong class="text-lg">삼정호텔 1층 로즈마리홀</strong> <span class="text-gray-600">(서울 강남구 봉은사로 150)</span>
+                    </div>
+                    <div class="border-b border-gray-200 pb-4 flex justify-between items-end">
+                        <div>
+                            <span class="text-gray-500 text-sm font-bold block mb-1">참가 비용</span>
+                            <strong class="text-2xl text-cobalt">1,000,000원</strong> <span class="text-gray-600">/ 1인</span>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-red-500 text-sm font-bold block mb-1">접수 마감</span>
+                            <strong class="text-lg">~ 2026. 4. 10(금)까지</strong>
+                        </div>
+                    </div>
+                    <div class="pt-2">
+                        <p class="text-sm text-gray-600"><i class="fa-solid fa-phone mr-2"></i>문의: 중소벤처기업연수원 진의태 과장 (031-490-1250)</p>
+                    </div>
+                </div>
+                
+                <div class="flex flex-col items-center gap-4 border-t md:border-t-0 md:border-l border-gray-200 pt-6 md:pt-0 md:pl-8 w-full md:w-auto">
+                    <!-- Placeholder for QR Code, using font awesome as dummy -->
+                    <div class="w-32 h-32 bg-gray-100 rounded-lg flex items-center justify-center border-2 border-dashed border-gray-300">
+                        <i class="fa-solid fa-qrcode text-6xl text-gray-400"></i>
+                    </div>
+                    <p class="text-xs text-gray-500 text-center">스마트폰 카메라로 스캔하여<br>1분 만에 신청을 완료하세요</p>
+                    
+                    <a href="https://naver.me/G7N6TbpD" target="_blank" class="w-full text-center bg-deep-navy text-white font-bold py-4 px-6 rounded-lg hover:bg-cobalt hover:shadow-lg transition-all transform hover:-translate-y-1 relative overflow-hidden group">
+                        <span class="relative z-10">모바일 간편 신청하기</span>
+                        <div class="absolute inset-0 bg-gold transform scale-x-0 origin-left transition-transform duration-300 ease-out group-hover:scale-x-100 opacity-20"></div>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12 text-gray-500 text-sm reveal delay-300">
+                <p>글로벌 불확실성의 파고를 넘고 혁신의 기회를 포착할 중소벤처기업 CEO 여러분의 많은 참여를 기다립니다.</p>
+                <p class="font-bold mt-2">KOSME 중소벤처기업연수원</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Scroll & Countdown Scripts -->
+    <script>
+        // Scroll Reveal Animation
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 100;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+        // Trigger once on load
+        reveal();
+
+        // Countdown Timer
+        // Target Date: 2026-04-10 23:59:59
+        const countDownDate = new Date("April 10, 2026 23:59:59").getTime();
+
+        const x = setInterval(function() {
+            const now = new Date().getTime();
+            const distance = countDownDate - now;
+
+            // Time calculations
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Display results
+            document.getElementById("days").innerHTML = days.toString().padStart(2, '0');
+            document.getElementById("hours").innerHTML = hours.toString().padStart(2, '0');
+            document.getElementById("minutes").innerHTML = minutes.toString().padStart(2, '0');
+            document.getElementById("seconds").innerHTML = seconds.toString().padStart(2, '0');
+
+            // If the count down is finished
+            if (distance < 0) {
+                clearInterval(x);
+                document.getElementById("days").innerHTML = "00";
+                document.getElementById("hours").innerHTML = "00";
+                document.getElementById("minutes").innerHTML = "00";
+                document.getElementById("seconds").innerHTML = "00";
+            }
+        }, 1000);
+    </script>
 </body>
 </html>
